@@ -6,6 +6,7 @@ async function getPictures(i) {
     try {
         const response = await fetch(URL, {
             method: 'GET',
+            referrerPolicy: "strict-origin-when-cross-origin",
             headers: {
                 accept: 'application/json',
             },
