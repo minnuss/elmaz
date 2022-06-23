@@ -3,7 +3,7 @@ let pictureBox = document.querySelector('.pic-box')
 
 // create async await fetch pictures function
 async function getPictures(i) {
-    let URL = `https://img.elmaz.com/uploads/img/00/05/48/47/67/5484767/5484767-${i}-rr.jpg?si=8147857`
+    let URL = `https://cors-anywhere.herokuapp.com/https://img.elmaz.com/uploads/img/00/05/48/47/67/5484767/5484767-${i}-rr.jpg?si=8147857`
     let response = await fetch(URL)
     let data = await response.json()
     console.log('data', data)
