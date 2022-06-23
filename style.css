@@ -1,0 +1,15 @@
+.container {
+  max-width: 100%;
+  min-height: 100vh;
+  /* background-color: red; */
+}
+
+.pic-box {
+  min-width: 350px;
+  min-height: 500px;
+}
+
+.image {
+  width: 100%;
+  min-height: 100%;
+}
