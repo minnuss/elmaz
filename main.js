@@ -5,11 +5,12 @@ async function getPictures(i) {
     let URL = `https://img.elmaz.com/uploads/img/00/05/48/47/67/5484767/5484767-${i}-rr.jpg?si=8147857`
     try {
         const response = await fetch(URL, {
+            accessControlRequestHeaders: 'origin, x-requested-with',
             method: 'GET',
-            referrerPolicy: "strict-origin-when-cross-origin",
             headers: {
                 accept: 'application/json',
-            },
+                'content-type': 'application/json'
+            }
         });
 
         if (!response.ok) {
