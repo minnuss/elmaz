@@ -17,12 +17,12 @@ async function getPictures(i) {
         }
 
         const result = await response.json();
-        console.log('data', data)
+        // console.log('data', data)
         let img = document.createElement('img')
-        img.src = data.url
+        img.src = result.url
         pictureBox.appendChild(img)
 
-        createPictureBox(data.url)
+        createPictureBox(result.url)
     } catch (err) {
         console.log(err);
     }
