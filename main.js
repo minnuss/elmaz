@@ -1,67 +1,30 @@
-let img = document.querySelector('.image')
-let pictureBox = document.querySelector('.pic-box')
+let pictureBox = document.querySelector('.pic-box');
+let urlSource = prompt('Provide one pic source URL');
+const regex = /-(\d+)-r/; // Updated regex to match number between dashes
+const match = urlSource.match(regex);
 
-async function getPictures(i) {
-    let URL = `https://img.elmaz.com/uploads/img/00/05/48/47/67/5484767/5484767-${i}-rr.jpg?si=8147857`
-    try {
-        const response = await fetch(URL, {
-            accessControlRequestHeaders: 'origin, x-requested-with',
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                'content-type': 'application/json'
-            }
-        });
+if (match) {
+    const originalNumber = match[1]; // Extract the number from the match
 
-        if (!response.ok) {
-            throw new Error(`Error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        // console.log('data', data)
-        let img = document.createElement('img')
-        img.src = result.url
-        pictureBox.appendChild(img)
-
-        createPictureBox(result.url)
-    } catch (err) {
-        console.log(err);
+    // Loop through numbers 0-20 and display images
+    for (let i = 0; i <= 20; i++) {
+        // Generate new URL by replacing the original number with the loop index
+        let updatedURL = urlSource.replace(`-${originalNumber}-`, `-${i}-`);
+        createPictureBox(updatedURL);
     }
+} else {
+    console.error('The provided URL does not match the expected format.');
 }
 
-
-// create async await fetch pictures function
-// async function getPictures(i) {
-//     let URL = `https://img.elmaz.com/uploads/img/00/05/48/47/67/5484767/5484767-${i}-rr.jpg?si=8147857`
-//     let response = await fetch(URL)
-//     let data = await response.json()
-//     console.log('data', data)
-//     let img = document.createElement('img')
-//     img.src = data.url
-//     pictureBox.appendChild(img)
-
-//     createPictureBox(data.url)
-// }
-
-for (let i = 1; i <= 20; i++) {  // loop through 20 pictures
-    getPictures(i)
-}
-
+// Function to create a picture box and append it to the container
 function createPictureBox(url) {
-    let picBox = document.createElement('div')  // create div
-    picBox.className = 'pic-box'
-    let img = document.createElement('img')  // create img
-    img.className = 'image'
-    img.src = url
-    picBox.appendChild(img)
-    pictureBox.appendChild(picBox)
+    let picBox = document.createElement('div'); // Create div
+    picBox.className = 'pic-box'; // Assign class to div
+
+    let img = document.createElement('img'); // Create img element
+    img.className = 'image'; // Assign class to img
+    img.src = url; // Set the image source to the URL
+
+    picBox.appendChild(img); // Append the img to the div
+    pictureBox.appendChild(picBox); // Append the div to the container
 }
-
-
-
-
-
-
-
-
-
