@@ -1,7 +1,8 @@
+// Prompt the user for a URL when the page is loaded
+let urlSource = prompt('Provide one pic source URL (e.g., https://img.elmaz.com/uploads/img/00/06/01/22/99/6012299/6012299-3-rr.jpg?si=8738543)');
+
 document.addEventListener("DOMContentLoaded", () => {
-    // Prompt the user for a URL when the page is loaded
-    let urlSource = prompt('Provide one pic source URL (e.g., https://img.elmaz.com/uploads/img/00/06/01/22/99/6012299/6012299-3-rr.jpg?si=8738543)');
-    
+            
     // Ensure the user provides a URL
     if (!urlSource) {
         console.error('No URL provided.');
