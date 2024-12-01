@@ -1,50 +1,65 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const mainContainer = document.createElement('div'); // Main container for images
-    mainContainer.className = 'image-container'; // Assign a class for styling
-    document.body.appendChild(mainContainer); // Append the container to the body
-
-    // Function to recursively traverse the DOM until reaching `div.gallery`
-    function findGalleryElement(element) {
-        if (!element) return null;
-        if (element.classList && element.classList.contains('gallery')) return element;
-
-        // Check children recursively
-        for (let child of element.children) {
-            const found = findGalleryElement(child);
-            if (found) return found;
+async function fetchAndProcessImages(initialURL) {
+    try {
+        // Fetch the HTML content from the given URL
+        const response = await fetch(initialURL);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch URL: ${response.statusText}`);
         }
-        return null;
-    }
 
-    // Function to find `div.list` inside the gallery
-    function findListElement(galleryElement) {
-        if (!galleryElement) return null;
-        return galleryElement.querySelector('div.list');
-    }
+        const htmlText = await response.text(); // Get the page content as text
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html'); // Parse HTML content into a DOM
 
-    // Function to grab and process all image URLs inside `div.list`
-    function processImages(listElement) {
-        if (!listElement) return;
-        const images = listElement.querySelectorAll('img'); // Select all `img` elements
+        // Start processing the DOM
+        const mainContainer = document.createElement('div'); // Main container for images
+        mainContainer.className = 'image-container'; // Assign a class for styling
+        document.body.appendChild(mainContainer); // Append the container to the body
 
-        images.forEach(img => {
-            let src = img.src; // Get the image src
-            if (src.includes('-rb.jpg')) {
-                src = src.replace('-rb.jpg', '-rr.jpg'); // Replace "rb" with "rr"
-                checkAndCreateImage(src, mainContainer); // Validate and append the modified image
-            }
-        });
+        // Locate the `div.gallery`
+        const gallery = findGalleryElement(doc.body);
+        if (gallery) {
+            const list = findListElement(gallery);
+            processImages(list, mainContainer); // Process images and append them
+        } else {
+            console.warn('Gallery element not found!');
+        }
+    } catch (error) {
+        console.error(`Error processing images: ${error.message}`);
     }
+}
 
-    // Start the process from the document body
-    const gallery = findGalleryElement(document.body);
-    if (gallery) {
-        const list = findListElement(gallery);
-        processImages(list);
-    } else {
-        console.warn('Gallery element not found!');
+// Function to recursively traverse the DOM until reaching `div.gallery`
+function findGalleryElement(element) {
+    if (!element) return null;
+    if (element.classList && element.classList.contains('gallery')) return element;
+
+    // Check children recursively
+    for (let child of element.children) {
+        const found = findGalleryElement(child);
+        if (found) return found;
     }
-});
+    return null;
+}
+
+// Function to find `div.list` inside the gallery
+function findListElement(galleryElement) {
+    if (!galleryElement) return null;
+    return galleryElement.querySelector('div.list');
+}
+
+// Function to grab and process all image URLs inside `div.list`
+function processImages(listElement, container) {
+    if (!listElement) return;
+    const images = listElement.querySelectorAll('img'); // Select all `img` elements
+
+    images.forEach(img => {
+        let src = img.src; // Get the image src
+        if (src.includes('-rb.jpg')) {
+            src = src.replace('-rb.jpg', '-rr.jpg'); // Replace "rb" with "rr"
+            checkAndCreateImage(src, container); // Validate and append the modified image
+        }
+    });
+}
 
 // Function to check if an image URL is valid and append it if it is
 async function checkAndCreateImage(url, container) {
@@ -83,3 +98,7 @@ function createPictureBox(url, container) {
     picBox.appendChild(img); // Append the image to the .pic-box container
     container.appendChild(picBox); // Append the .pic-box to the main container
 }
+
+// Start the process with an initial URL
+const initialURL = "https://www.elmaz.com/upoznavanje/screen/profile&uid=5955639";
+fetchAndProcessImages(initialURL);
