@@ -1,8 +1,7 @@
-// Prompt the user for a URL when the page is loaded
-let urlSource = prompt('Provide one pic source URL (e.g., https://img.elmaz.com/uploads/img/00/06/01/22/99/6012299/6012299-3-rr.jpg?si=8738543)');
-
 document.addEventListener("DOMContentLoaded", () => {
-            
+    // Prompt the user for a URL when the page is loaded
+    let urlSource = prompt('Provide one pic source URL (e.g., https://img.elmaz.com/uploads/img/00/06/01/22/99/6012299/6012299-3-rr.jpg?si=8738543)');
+
     // Ensure the user provides a URL
     if (!urlSource) {
         console.error('No URL provided.');
@@ -10,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    let pictureBox = document.querySelector('.pic-box'); // Select the .pic-box element
+    let container = document.querySelector('.container'); // Select the main container
     const regex = /-(\d+)-r/; // Regex to match the number between dashes
     const match = urlSource.match(regex);
 
@@ -44,12 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // Function to dynamically create and append images to the picture box
+    // Function to dynamically create and append images to the container
     function createPictureBox(url) {
+        let picBox = document.createElement('div'); // Create a new div for each image
+        picBox.className = 'pic-box'; // Assign the "pic-box" class
+
         let img = document.createElement('img'); // Create an img element
         img.className = 'image'; // Assign the "image" class
         img.src = url; // Set the src attribute to the validated URL
         img.alt = "Generated image"; // Add an alt attribute for accessibility
-        pictureBox.appendChild(img); // Append the image to the .pic-box container
+
+        picBox.appendChild(img); // Append the image to the .pic-box container
+        container.appendChild(picBox); // Append the .pic-box to the main container
     }
 });
