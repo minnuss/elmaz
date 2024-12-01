@@ -1,3 +1,6 @@
+const corsProxy = "https://cors-anywhere.herokuapp.com/";
+const initialURL = prompt("Paste Elmaz profile url");
+
 async function fetchAndProcessImages(initialURL) {
     try {
         // Fetch the HTML content from the given URL
@@ -99,6 +102,4 @@ function createPictureBox(url, container) {
     container.appendChild(picBox); // Append the .pic-box to the main container
 }
 
-// Start the process with an initial URL
-const initialURL = "https://www.elmaz.com/upoznavanje/screen/profile&uid=5955639";
-fetchAndProcessImages(initialURL);
+fetchAndProcessImages(corsProxy + initialURL);
