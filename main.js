@@ -1,6 +1,25 @@
 const corsProxy = "https://cors-anywhere.herokuapp.com/";
 const initialURL = prompt("Paste Elmaz profile url");
 
+fetch(corsProxy + initialURL)
+    .then(response => response.text())
+    .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+
+        // Process the DOM here
+        const gallery = doc.querySelector("div.gallery");
+        if (gallery) {
+            const list = gallery.querySelector("div.list");
+            const images = list.querySelectorAll("img");
+            images.forEach(img => {
+                const src = img.src.replace("-rb.jpg", "-rr.jpg");
+                console.log(src);
+            });
+        }
+    })
+    .catch(error => console.error("Error fetching the page:", error));
+
 async function fetchAndProcessImages(initialURL) {
     try {
         // Fetch the HTML content from the given URL
