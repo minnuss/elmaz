@@ -44,7 +44,7 @@ fetch(corsProxy + initialURL)
             imgElement.src = url;
             imgElement.alt = "Modified image";
             imgElement.style.margin = "10px";
-            imgElement.style.maxWidth = "200px"; // Adjust size for display
+            imgElement.style.maxWidth = "500px"; // Adjust size for display
             container.appendChild(imgElement);
         });
     })
