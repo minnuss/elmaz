@@ -1,26 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Prompt the user for a URL when the page is loaded
+    // Prompt the user for a base URL
     let urlSource = prompt('Provide one pic source URL (e.g., https://img.elmaz.com/uploads/img/00/06/01/22/99/6012299/6012299-3-rr.jpg?si=8738543)');
 
-    // Ensure the user provides a URL
+    // Validate the user-provided URL
     if (!urlSource) {
         console.error('No URL provided.');
         alert('Please reload the page and provide a valid URL.');
         return;
     }
 
-    let container = document.querySelector('.container'); // Select the main container
-    const regex = /-(\d+)-r/; // Regex to match the number between dashes
+    let container = document.querySelector('.container'); // Select the container
+    const regex = /-(\d+)-r/; // Regex to match the dynamic number in the URL
     const match = urlSource.match(regex);
 
     if (match) {
         const originalNumber = match[1]; // Extract the matched number
+        const start = parseInt(originalNumber); // Convert to number for manipulation
 
-        // Loop through numbers 0-20 and dynamically check and append images
+        // Loop through numbers 0-20 and dynamically generate and check images
         for (let i = 0; i <= 20; i++) {
-            // Generate a new URL by replacing the matched number
-            let updatedURL = urlSource.replace(`-${originalNumber}-`, `-${i}-`);
-            checkAndCreateImage(updatedURL);
+            let updatedURL = urlSource.replace(`-${originalNumber}-`, `-${i}-`); // Update URL
+            checkAndCreateImage(updatedURL); // Check and load images dynamically
         }
     } else {
         console.error('The provided URL does not match the expected format.');
